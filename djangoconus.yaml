@@ -1,0 +1,294 @@
+---
+openapi: 3.0.0
+info:
+  title: DjangoConUS Treasure
+  description: This is a test API for managing DjangoConUS Treasure to demonstrate how to create an API spec with atleast one endpoint.
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/veldakarimi/djangoconus/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /treasures:
+    get:
+      summary: Get all treasures
+      operationId: getTreasures
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Treasure'
+    post:
+      summary: Create a new treasure
+      operationId: createTreasure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Treasure'
+        required: true
+      responses:
+        "201":
+          description: Treasure created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treasure'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                bad_request:
+                  value:
+                    message: The request body is invalid.
+                    code: 400
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unauthorized:
+                  value:
+                    message: The user is not authorized to access this resource.
+                    code: 401
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: An unexpected error occurred while processing the request.
+                    code: 500
+  /treasures/{id}:
+    get:
+      summary: Get a treasure by ID
+      operationId: getTreasureById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treasure'
+        "404":
+          description: treasure not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: treasure not found.
+                    code: 400
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: An unexpected error occurred while processing the request.
+                    code: 500
+    put:
+      summary: Update a treasure by ID
+      operationId: updateTreasureById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Treasure'
+        required: true
+      responses:
+        "200":
+          description: Treasure updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Treasure'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Bad request.
+                    code: 400
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Unauthorized.
+                    code: 401
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Access is forbidden.
+                    code: 403
+        "404":
+          description: Merchandise not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: treasure not found.
+                    code: 404
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: An unexpected error occurred while processing the request.
+                    code: 500
+    delete:
+      summary: Delete a treasure by ID
+      operationId: deleteTreasureById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Treasure deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Treasure has been deleted.
+                    code: 204
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Unauthorized to view resource
+                    code: 401
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: Access is forbidden.
+                    code: 403
+        "404":
+          description: Treasure is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: treasure is not found.
+                    code: 404
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_server_error:
+                  value:
+                    message: An unexpected error occurred while processing the request.
+                    code: 500
+components:
+  schemas:
+    Treasure:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+      example:
+      - id: 1
+        name: Treasure 1
+        price: 39.99
+        description: A snow globe with the djangocon logo in the middle and laptops on the side
+      - id: 2
+        name: Treasure 2
+        price: 10.99
+        description: A djangocon green notebook with 100 squared pages and a hard cover logo
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: number
+        message:
+          type: string
+        docs:
+          type: string
+      description: Represents an HTTP error
