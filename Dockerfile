@@ -4,9 +4,12 @@ FROM python:3.10.0
 # Create app directory
 WORKDIR /apifestapp
 
-# Install app dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Copy all files
+COPY . .
+
+# Install app dependencies and create migrations
+RUN pip install -r requirements.txt && \
+python manage.py migrate
 
 # set environment variables  
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,5 +20,3 @@ EXPOSE 8080
 # start server  
 CMD python manage.py runserver
 
-# copy project
-COPY . .
